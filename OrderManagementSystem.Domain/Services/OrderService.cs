@@ -14,13 +14,14 @@
         {
             var state = await _orderStateService.GetOrderState("Cancelled");
             var order = await _orderRepository.GetAsync(x => x.OrderId == orderId);
+            var orderstate = await GetOrderState(orderId);
 
-            // Pseudo: get a state of the order
-            //if the state is not completed then you can cancelled
-            // if it completed then flag it.
-
-            order.OrderStateId = state.OrderStateId;
-            await _orderRepository.UpdateAsync(order);
+            if(orderstate != state.OrderStateId)
+            {
+                order.OrderStateId = state.OrderStateId;
+                await _orderRepository.UpdateAsync(order);
+                await UnitOfWork.CommitAsync();
+            }
             return order;
             
         }
@@ -73,6 +74,12 @@
             catch (Exception ex)
             { }
             return order;
+        }
+
+        internal async Task<int> GetOrderState(int OrderId)
+        {
+            var order = await _orderRepository.GetAsync(x=>x.OrderId == OrderId);
+            return order.OrderStateId;
         }
     }
 }
