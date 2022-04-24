@@ -3,7 +3,7 @@ using OrderManagementSystem.Domain;
 
 namespace OrderManagementSystem.Commands
 {
-    public class PlaceOrderCommandHandler : IRequestHandler<PlaceOrderCommand, Order>
+    public class PlaceOrderCommandHandler : IRequestHandler<PlaceOrderCommand, string>
     {
         private readonly IOrderService _orderService;
 
@@ -11,7 +11,7 @@ namespace OrderManagementSystem.Commands
         {
             _orderService = orderService;
         }
-        public async Task<Order> Handle(PlaceOrderCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(PlaceOrderCommand request, CancellationToken cancellationToken)
         {
             var placed = await _orderService.PlaceOrder(request.Order);
             return placed;

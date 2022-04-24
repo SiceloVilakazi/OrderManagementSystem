@@ -8,10 +8,10 @@
 
         Task<List<Order>> GetOrdersByDate(DateTime date);
 
-        Task<Order> PlaceOrder(Order order);
+        Task<string> PlaceOrder(Order order);
 
-        Task<Order> CancelOrder(int orderId);
+        Task<string> CancelOrder(int orderId);
 
-        Task<Order> CompleteOrder(int orderId);
+        Task<string> CompleteOrder(int orderId);
     }
 }

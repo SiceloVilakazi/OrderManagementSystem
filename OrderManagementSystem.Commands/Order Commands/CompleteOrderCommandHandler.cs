@@ -3,7 +3,7 @@ using OrderManagementSystem.Domain;
 
 namespace OrderManagementSystem.Commands
 {
-    public class CompleteOrderCommandHandler : IRequestHandler<CompleteOrderCommand, Order>
+    public class CompleteOrderCommandHandler : IRequestHandler<CompleteOrderCommand, string>
     {
         private IOrderService _orderService;
 
@@ -11,7 +11,7 @@ namespace OrderManagementSystem.Commands
         {
             _orderService = orderService;
         }
-        public async Task<Order> Handle(CompleteOrderCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(CompleteOrderCommand request, CancellationToken cancellationToken)
         {
             var completed = await _orderService.CompleteOrder(request.Id);
             return completed;

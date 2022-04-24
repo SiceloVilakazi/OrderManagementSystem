@@ -84,7 +84,7 @@ namespace OrderManagementSystem.API.Controllers
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        [HttpPut("CompleteOrder/{id}")]
+        [HttpPut("CompleteOrder/{Id}")]
         public async Task<IActionResult> CompleteOrder(int Id)
         {
             var command = new CompleteOrderCommand(Id);

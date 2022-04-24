@@ -20,7 +20,21 @@
         public async Task<Stock> AddStock(Stock stock)
         {
             var addedStock = await _stockRepository.AddAsync(stock);
+            await UnitOfWork.CommitAsync();
             return addedStock;
+        }
+
+        public async Task<Stock> UpdateStock(Stock stock)
+        {
+            var updated=await _stockRepository.UpdateAsync(stock);
+            await UnitOfWork.CommitAsync();
+            return updated;
+        }
+
+        public async Task<Stock> GetStock(int ProductId)
+        {
+            var stock = await _stockRepository.GetAsync(x=>x.ProductId==ProductId);
+            return stock;
         }
     }
 }

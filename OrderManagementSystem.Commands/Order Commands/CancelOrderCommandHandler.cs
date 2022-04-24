@@ -3,7 +3,7 @@ using OrderManagementSystem.Domain;
 
 namespace OrderManagementSystem.Commands
 {
-    public class CancelOrderCommandHandler : IRequestHandler<CancelOrderCommand, Order>
+    public class CancelOrderCommandHandler : IRequestHandler<CancelOrderCommand, string>
     {
         private readonly IOrderService _orderService;
 
@@ -11,7 +11,7 @@ namespace OrderManagementSystem.Commands
         {
             _orderService= orderService;
         }
-        public async Task<Order> Handle(CancelOrderCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(CancelOrderCommand request, CancellationToken cancellationToken)
         {
             var cancelled = await _orderService.CancelOrder(request.Id);
             return cancelled;

@@ -3,7 +3,7 @@ using OrderManagementSystem.Domain;
 
 namespace OrderManagementSystem.Commands
 {
-    public class CancelOrderCommand : IRequest<Order>
+    public class CancelOrderCommand : IRequest<string>
     {
         public int Id { get; set; }
 
