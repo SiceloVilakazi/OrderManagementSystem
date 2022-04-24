@@ -32,7 +32,7 @@ namespace OrderManagementSystem.API.Controllers
         /// </summary>
         /// <param name="date"></param>
         /// <returns></returns>
-        [HttpGet("{date}")]
+        [HttpGet("GetOrderByDate/{date}")]
         public async Task<IActionResult> GetOrdersByDate(DateTime date)
         {
             var query = new GetOrdersByDateQuery(date);
@@ -45,7 +45,7 @@ namespace OrderManagementSystem.API.Controllers
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        [HttpGet("{name}")]
+        [HttpGet("GetOrderByName/{name}")]
         public async Task<IActionResult> GetOrderByName(string name)
         {
             var query = new GetOrderByNameQuery(name);

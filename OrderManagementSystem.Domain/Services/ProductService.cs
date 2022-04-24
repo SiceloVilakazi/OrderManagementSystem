@@ -28,6 +28,7 @@ namespace OrderManagementSystem.Domain
         {
             var product = await _productRepository.GetAsync(x=>x.ProductId == productId);
             var deleted = _productRepository.DeleteAsync(product);
+            await UnitOfWork.CommitAsync();
             return deleted.Result;
         }
 
