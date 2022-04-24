@@ -6,14 +6,17 @@
         private readonly IOrderStateRepository _orderStateRepository;
         private readonly IStockService _stockService;
         private readonly IProductRepository _productRepository;
+        private readonly ILoggerManager _logger;
 
         public OrderService(IOrderRepository orderRepository,IOrderStateRepository orderStateRepository,
-            IStockService stockService ,IProductRepository productRepository , IUnitOfWork unitOfWork) : base(unitOfWork)
+            IStockService stockService ,IProductRepository productRepository ,
+            ILoggerManager iloggerManager, IUnitOfWork unitOfWork) : base(unitOfWork)
         {
             _orderRepository = orderRepository;
             _orderStateRepository = orderStateRepository;
             _stockService = stockService;
             _productRepository = productRepository;
+            _logger = iloggerManager;
         }
         public async Task<string> CancelOrder(int orderId)
         {
@@ -24,7 +27,9 @@
 
             if(orderstate ==state.OrderStateId)
             {
-                return String.Format("Order number {0}, has already been cancelled", order.OrderId);
+                string returnMessage = String.Format("Order number {0}, has already been cancelled", order.OrderId);
+                _logger.LogError(returnMessage);
+                return returnMessage;
             }
 
             if (orderstate != CompletedState.OrderStateId)
@@ -34,15 +39,18 @@
                 stock.AvailableStock += order.Quantity;
                 var returnStock = await _stockService.UpdateStock(stock);
                 #endregion
-
+                string returnMessage = String.Format("Order number {0}, has been cancelled", order.OrderId);
                 order.OrderStateId = state.OrderStateId;
                 await _orderRepository.UpdateAsync(order);
                 await UnitOfWork.CommitAsync();
-                return String.Format("Order number {0}, has been cancelled", order.OrderId);
+                _logger.LogInfo(returnMessage);
+                return returnMessage;
             }
             else
             {
-                return String.Format("Order number {0}, cannot be cancelled because it is in a completed state", order.OrderId);
+                string returnMessage = String.Format("Order number {0}, cannot be cancelled because it is in a completed state", order.OrderId);
+                _logger.LogError(returnMessage);
+                return returnMessage;
             }
         }
 
@@ -54,7 +62,9 @@
             order.OrderStateId = state.OrderStateId;
             await _orderRepository.UpdateAsync(order);
             await UnitOfWork.CommitAsync();
-            return String.Format("Order number {0}, has been completed", order.OrderId);
+            string returnMessage = String.Format("Order number {0}, has been completed", order.OrderId);
+            _logger.LogInfo(returnMessage);
+            return returnMessage;
         }
 
         public async Task<List<Order>> GetOrdersByDate(DateTime date)
@@ -82,7 +92,7 @@
             {
                var state = await _orderStateRepository.GetAsync(x=>x.State=="Reserved");
                var product = await _productRepository.GetAsync(x=>x.ProductId == order.ProductId);
-               var stockAvailable = await _stockService.GetAvailableStock(product.Name);
+                var stockAvailable = await _stockService.GetAvailableStock(product.Name);
                 if(stockAvailable.AvailableStock>=order.Quantity)
                 {
                     stockAvailable.AvailableStock =stockAvailable.AvailableStock -order.Quantity;
