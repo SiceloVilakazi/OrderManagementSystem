@@ -107,11 +107,16 @@
 
                     });
                     await UnitOfWork.CommitAsync();
-                    return "successfully placed an order";
+                    string returnMessage = String.Format("successfully placed an order for {0}.", product.Name);
+                    _logger.LogInfo(returnMessage);
+                    return returnMessage;
                 }
                 else
                 {
-                    throw new Exception("The product is currently out of stock, try a different product");
+                    string returnMessage = String.Format("The product is currently out of stock, try a different product");
+                    _logger.LogError(returnMessage);
+                    throw new Exception(returnMessage);
+                   
                 }
             
             }
