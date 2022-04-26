@@ -57,17 +57,7 @@ builder.Services.AddSwaggerGen(options =>
         Version = "v1",
         Title = "Order Management System API",
         Description = "An ASP.NET Core Web API for managing orders, stocks and products",
-        //TermsOfService = new Uri("https://example.com/terms"),
-        //Contact = new OpenApiContact
-        //{
-        //    Name = "Example Contact",
-        //    Url = new Uri("https://example.com/contact")
-        //},
-        //License = new OpenApiLicense
-        //{
-        //    Name = "Example License",
-        //    Url = new Uri("https://example.com/license")
-        //}
+
     });
 
     // using System.Reflection;

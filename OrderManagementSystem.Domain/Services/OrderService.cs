@@ -20,8 +20,8 @@
         }
         public async Task<string> CancelOrder(int orderId)
         {
-            var state = await _orderStateRepository.GetAsync(x=>x.State=="Cancelled");
-            var CompletedState = await _orderStateRepository.GetAsync(x => x.State == "Completed");
+            var state = await _orderStateRepository.GetAsync(x => x.OrderStateId == (int)StatusEnums.Canceled);
+            var CompletedState = await _orderStateRepository.GetAsync(x => x.OrderStateId == (int)StatusEnums.Completed);
             var order = await _orderRepository.GetAsync(x => x.OrderId == orderId);
             var orderstate = await GetOrderState(orderId);
 
@@ -56,7 +56,7 @@
 
         public async Task<string> CompleteOrder(int orderId)
         {
-            var state = await _orderStateRepository.GetAsync(x=>x.State=="Completed");
+            var state = await _orderStateRepository.GetAsync(x=>x.OrderStateId==(int)StatusEnums.Completed);
             var order = await _orderRepository.GetAsync(x => x.OrderId == orderId);
 
             order.OrderStateId = state.OrderStateId;
@@ -90,7 +90,7 @@
         {
             try
             {
-               var state = await _orderStateRepository.GetAsync(x=>x.State=="Reserved");
+               var state = await _orderStateRepository.GetAsync(x=>x.OrderStateId==(int)StatusEnums.Reserved);
                var product = await _productRepository.GetAsync(x=>x.ProductId == order.ProductId);
                 var stockAvailable = await _stockService.GetAvailableStock(product.Name);
                 if(stockAvailable.AvailableStock>=order.Quantity)
