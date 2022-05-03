@@ -7,6 +7,7 @@ using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using NLog;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,7 +46,8 @@ builder.Services.AddTransient<IStockRepository, StockRepository>();
 
 
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
-
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddTransient(typeof(IDistributedCacheRepository), typeof(DistributedCacheRepository));
 
 builder.Services.AddDbContext<OrderManagementDBContext>
   (options => options.UseSqlServer(config.GetConnectionString("DefaultConnection")));
@@ -59,6 +61,8 @@ builder.Services.AddSwaggerGen(options =>
         Description = "An ASP.NET Core Web API for managing orders, stocks and products",
 
     });
+
+   // options.DocumentFilter()
 
     // using System.Reflection;
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
@@ -76,7 +80,17 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+
+        options.DocExpansion(DocExpansion.None);
+        options.DisplayRequestDuration();
+        options.DefaultModelRendering(ModelRendering.Model);
+
+        options.EnableFilter();
+        // options.DefaultModelExpandDepth(5);
+        options.DefaultModelExpandDepth(-1);
+    });
 }
 
 app.UseHttpsRedirection();

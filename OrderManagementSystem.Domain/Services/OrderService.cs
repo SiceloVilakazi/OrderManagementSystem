@@ -9,7 +9,7 @@
         private readonly ILoggerManager _logger;
 
         public OrderService(IOrderRepository orderRepository,IOrderStateRepository orderStateRepository,
-            IStockService stockService ,IProductRepository productRepository ,
+            IStockService stockService ,IProductRepository productRepository,
             ILoggerManager iloggerManager, IUnitOfWork unitOfWork) : base(unitOfWork)
         {
             _orderRepository = orderRepository;

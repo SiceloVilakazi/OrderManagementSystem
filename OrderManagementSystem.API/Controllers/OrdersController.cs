@@ -1,11 +1,15 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace OrderManagementSystem.API.Controllers
 {
+    /// <summary>
+    /// Provides operations to manage Orders
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-   
+    [SwaggerTag("Provides operations to manage Orders")]
     public class OrdersController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -31,6 +35,10 @@ namespace OrderManagementSystem.API.Controllers
         /// Gets a list of Orders from a given date
         /// </summary>
         /// <param name="date"></param>
+        /// <remarks>
+        /// <br><h3>Allowed format:</h3> </br>
+        /// YYY-MM-DD
+        /// </remarks>
         /// <returns></returns>
         [HttpGet("GetOrderByDate/{date}")]
         public async Task<IActionResult> GetOrdersByDate(DateTime date)
