@@ -20,11 +20,11 @@ namespace OrderManagementSystem.API.Controllers
         /// <param name="ProductName"></param>
         /// <returns></returns>
         [HttpGet("{ProductName}")]
-        public async Task<ActionResult<Stock>> GetAvailableStock(string ProductName)
+        public async Task<Stock> GetAvailableStock(string ProductName)
         {
             var query = new GetAvailableStockQuery(ProductName);
             var response = await _mediator.Send(query);
-            return Ok(response);
+            return response;
         }
 
         /// <summary>
