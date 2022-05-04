@@ -24,11 +24,11 @@ namespace OrderManagementSystem.API.Controllers
         [HttpGet]
        // [ProducesResponseType(StatusCodes.Status302Found)]
        // [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetAll()
+        public async Task<IEnumerable<Product>> GetAll()
         {
             var query = new GetAllProductsQuery();
             var response = await  _mediator.Send(query);
-            return Ok(response);
+            return response;
         }
 
         /// <summary>
@@ -41,11 +41,11 @@ namespace OrderManagementSystem.API.Controllers
         [HttpGet("{ProductName}")]
         [ProducesResponseType(StatusCodes.Status302Found)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetByProductName(string ProductName)
+        public async Task<string> GetByProductName(string ProductName)
         {
             var query = new GetProductByProductNameQuery(ProductName);
             var response = await _mediator.Send(query);
-            return Ok(response);
+            return response.Name;
         }
 
 

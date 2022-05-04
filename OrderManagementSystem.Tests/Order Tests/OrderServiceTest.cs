@@ -22,13 +22,37 @@ namespace OrderManagementSystem.Tests
             _unitOfWorkMock = new Mock<IUnitOfWork>();
             _productsDbEntitiesMock = new ProductsDbEntitiesMock();
 
+            _unitOfWorkMock.Setup(x => x.CommitAsync());
+
             _orderserviceMock.Setup(x => x.GetOrders()).Returns((System.Threading.Tasks.Task<System.Collections.Generic.List<Order>>)
                                     _productsDbEntitiesMock.GetTestOrders());
         }
-        [Fact]
-        public void TestGetOrders()
-        {
-            var service = new OrderService(_orderserviceMock.Object, _productServiceMock.Object, _orderStateserviceMock.Object, _stockServiceMock.Object);
-        }
+
+        //[Fact]
+        //public void TestCreateDBProducts()
+        //{
+        //    var dbContext = _productsDBMockContext.GetDbContext();
+        //    var repo = new Repository<Product>(dbContext);
+
+        //    var preProductCreationCount = dbContext.Products.Count();
+
+        //    var product = new Product
+        //    {
+        //        ProductId = 10,
+        //        Description = "Microservices",
+        //        Name = "Microservices",
+        //        Price = 45
+        //    };
+
+        //    repo.Add(product);
+        //    repo.Save();
+
+        //    var postProductCreationCount = dbContext.Products.Count();
+
+        //    Assert.NotEqual(preProductCreationCount, postProductCreationCount);
+        //    Assert.Equal(preProductCreationCount + 1, postProductCreationCount);
+        //}
+
+
     }
 }

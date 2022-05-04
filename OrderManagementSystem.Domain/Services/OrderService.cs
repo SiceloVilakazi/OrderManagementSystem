@@ -90,8 +90,10 @@
         {
             try
             {
+                //validate : create method
+                //db calls SRP where possible
                var state = await _orderStateRepository.GetAsync(x=>x.OrderStateId==(int)StatusEnums.Reserved);
-               var product = await _productRepository.GetAsync(x=>x.ProductId == order.ProductId);
+               var product = await _productRepository.GetAsync(x=>x.ProductId == order.ProductId); //make sure product is not null
                 var stockAvailable = await _stockService.GetAvailableStock(product.Name);
                 if(stockAvailable.AvailableStock>=order.Quantity)
                 {

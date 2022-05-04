@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace OrderManagementSystem.Tests
 {
-    internal class ProductsDbEntitiesMock
+    public class ProductsDbEntitiesMock
     {
         public ICollection<Product> GetTestProducts()
         {
@@ -28,7 +28,7 @@ namespace OrderManagementSystem.Tests
       };
         }
 
-        public ICollection<Order> GetTestOrders()
+        public  ICollection<Order> GetTestOrders()
         {
             return new List<Order>
       {

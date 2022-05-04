@@ -8,10 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Order Tests\OrderServiceTest.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.4" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
     <PackageReference Include="Moq" Version="4.17.2" />
@@ -29,10 +25,6 @@
   <ItemGroup>
     <ProjectReference Include="..\OrderManagementSystem.API\OrderManagementSystem.API.csproj" />
     <ProjectReference Include="..\OrderManagementSystem.Domain\OrderManagementSystem.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Order Tests\" />
   </ItemGroup>
 
 </Project>
